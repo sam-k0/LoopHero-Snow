@@ -1,0 +1,59 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>LoopHeroMod v2024.10.28 exp</Name>
+    <Description>With Pre and Post patches</Description>
+    <ProjectType>VC</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>LoopHeroMod v2024.10.28 exp</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="LHExplorer.vcxproj" File="LHExplorer.vcxproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="false" TargetFileName="$projectname$.vcxproj.filters">LHExplorer.vcxproj.filters</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="dllmain.cpp">dllmain.cpp</ProjectItem>
+      <Folder Name="SDK" TargetFolderName="SDK">
+        <ProjectItem ReplaceParameters="false" TargetFileName="APIDefs.cpp">SDK\PLUGINS\API DEFINITIONS\APIDefs.cpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Plugins.cpp">SDK\PLUGINS\Plugins.cpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="CDynamicArray.cpp">SDK\STRUCTURES\DOCUMENTED\CDYNAMICARRAY\CDynamicArray.cpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="RefThing.cpp">SDK\STRUCTURES\DOCUMENTED\REFTHING\RefThing.cpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="YYRValue.cpp">SDK\STRUCTURES\DOCUMENTED\YYRVALUE\YYRValue.cpp</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets.h">Assets.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Filesystem.h">Filesystem.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="LHCore.h">LHCore.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="LHObjects.h">LHObjects.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="LHSprites.h">LHSprites.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="MyPlugin.h">MyPlugin.h</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Config.h">Config.h</ProjectItem>
+      <Folder Name="SDK" TargetFolderName="SDK">
+        <ProjectItem ReplaceParameters="false" TargetFileName="Enums.hpp">SDK\ENUMS\Enums.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="FwdDecls.hpp">SDK\FWDDECLS\FwdDecls.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="APIDefs.hpp">SDK\PLUGINS\API DEFINITIONS\APIDefs.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Plugins.hpp">SDK\PLUGINS\Plugins.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="YYTKEvent.hpp">SDK\PLUGINS\YYTKEVENT\YYTKEvent.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SDK.hpp">SDK\SDK.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="APIVars.hpp">SDK\STRUCTURES\DOCUMENTED\APIVARS\APIVars.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="CCode.hpp">SDK\STRUCTURES\DOCUMENTED\CCODE\CCode.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="CDynamicArray.hpp">SDK\STRUCTURES\DOCUMENTED\CDYNAMICARRAY\CDynamicArray.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="CHashMap.hpp">SDK\STRUCTURES\DOCUMENTED\CHASHMAP\CHashMap.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="FunctionInfo.hpp">SDK\STRUCTURES\DOCUMENTED\FUNCTIONINFO\FunctionInfo.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Math.hpp">SDK\STRUCTURES\DOCUMENTED\MATH\Math.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="RefThing.hpp">SDK\STRUCTURES\DOCUMENTED\REFTHING\RefThing.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="RToken.hpp">SDK\STRUCTURES\DOCUMENTED\RTOKEN\RToken.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="VMBuffer.hpp">SDK\STRUCTURES\DOCUMENTED\VMBUFFER\VMBuffer.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="YYRValue.hpp">SDK\STRUCTURES\DOCUMENTED\YYRVALUE\YYRValue.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="CScript.hpp">SDK\STRUCTURES\UNDOCUMENTED\CSCRIPT\CScript.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="VMExec.hpp">SDK\STRUCTURES\UNDOCUMENTED\VMEXEC\VMExec.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="YYGMLFuncs.hpp">SDK\STRUCTURES\UNDOCUMENTED\YYGMLFUNCS\YYGMLFuncs.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="YYObjectBase.hpp">SDK\STRUCTURES\UNDOCUMENTED\YYOBJECTBASE\YYObjectBase.hpp</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="YYVAR.hpp">SDK\STRUCTURES\UNDOCUMENTED\YYVAR\YYVAR.hpp</ProjectItem>
+      </Folder>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
