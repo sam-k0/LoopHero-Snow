@@ -21,6 +21,9 @@ YYRValue PART_EMITTER;
 #define PART_SHAPE_PIXEL 0.0
 #define PART_SHAPE_CLOUD 11.0
 
+#define GAME_WIDTH 640.0
+#define GAME_HEIGHT 360.0
+
 // Unload function, remove callbacks here
 YYTKStatus PluginUnload()
 {
@@ -72,10 +75,10 @@ void InstallPatches() // Register Pre and Post patches here
     Binds::CallBuiltinA("part_type_shape", { PART_TYPE, PART_SHAPE_PIXEL  });
     Binds::CallBuiltinA("part_type_size", { PART_TYPE, 0.8, 1.2, 0.0, 0.0 });
     Binds::CallBuiltinA("part_type_color1", { PART_TYPE, 16777215.0 });
-    Binds::CallBuiltinA("part_type_alpha2", { PART_TYPE, 0.9, 0.0 });
-    Binds::CallBuiltinA("part_type_speed", { PART_TYPE, 1.0, 2.0, 0.0, 0.0 });
+    Binds::CallBuiltinA("part_type_alpha3", { PART_TYPE, 0.1, 0.9 ,0.0 });
+    Binds::CallBuiltinA("part_type_speed", { PART_TYPE, 0.5, 1.0, 0.0, 0.0 });
     Binds::CallBuiltinA("part_type_direction", { PART_TYPE, 260.0, 280.0, 0.0, 0.0 });
-    Binds::CallBuiltinA("part_type_gravity", { PART_TYPE, 0.02, 270.0 });
+    //Binds::CallBuiltinA("part_type_gravity", { PART_TYPE, 0.02, 270.0 });
 
     // emitter
 
@@ -88,8 +91,8 @@ void InstallPatches() // Register Pre and Post patches here
         {
             PART_SYSTEM ,
             PART_EMITTER,
-            0.0, 1000.,
-            -10.0, -10.0,
+            0.0, GAME_WIDTH,
+            0.0, GAME_HEIGHT ,
             0.0, // ps_shape_rectangle
             0.0  // ps_distr_linear
         }
