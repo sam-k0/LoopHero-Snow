@@ -24,6 +24,12 @@ YYRValue PART_EMITTER;
 #define GAME_WIDTH 640.0
 #define GAME_HEIGHT 360.0
 
+std::string cfgFilename = Filesys::GetCurrentDir() + "\\options.ini";
+std::string SectionName = "Snow";
+std::string KeyNameSnowIntensity = "Intensity";
+float SnowIntensity = 8.0;
+
+
 // Unload function, remove callbacks here
 YYTKStatus PluginUnload()
 {
@@ -49,7 +55,7 @@ int CodePostPatch(YYTKCodeEvent* codeEvent, void*)
     // Do event specific stuff here.
     if (Misc::StringHasSubstr(codeObj->i_pName, "o_fight_enemy_Draw_0") || Misc::StringHasSubstr(codeObj->i_pName, "o_hero_Draw_0"))
     {
-        Binds::CallBuiltinA("part_emitter_burst", { PART_SYSTEM, PART_EMITTER, PART_TYPE, 8.0 });
+        Binds::CallBuiltinA("part_emitter_burst", { PART_SYSTEM, PART_EMITTER, PART_TYPE, SnowIntensity });
     }
 
 
@@ -67,24 +73,41 @@ void InstallPatches() // Register Pre and Post patches here
         Misc::Print("Installed patch method(s)", CLR_GREEN);
 	}
 
+
+
+    // All things related to config file
+    if (Filesys::FileExists(cfgFilename))
+    {
+        if (Config::KeySectionExists(cfgFilename, SectionName, KeyNameSnowIntensity)) {
+            // Read the value
+            Misc::PrintDbg("Reading config values", __FUNCTION__, __LINE__, CLR_GREEN);
+            SnowIntensity = float(Config::ReadIntFromIni(cfgFilename, SectionName, KeyNameSnowIntensity, 8.0));
+        }
+        else
+        {
+            // Write a default value
+            Misc::PrintDbg("Writing default values to config", __FUNCTION__, __LINE__, CLR_GRAY);
+            Config::WriteIniValue(cfgFilename, SectionName, KeyNameSnowIntensity, std::to_string(SnowIntensity));
+        }
+    }
+
+
+
     // Set up particles
     PART_SYSTEM = Binds::CallBuiltinA("part_system_create", {});
-    Binds::CallBuiltinA("part_system_depth", { PART_SYSTEM, -100.0 });
+    Binds::CallBuiltinA("part_system_depth", { PART_SYSTEM, -999.0 });
 
     PART_TYPE = Binds::CallBuiltinA("part_type_create", {});
     Binds::CallBuiltinA("part_type_shape", { PART_TYPE, PART_SHAPE_PIXEL  });
     Binds::CallBuiltinA("part_type_size", { PART_TYPE, 0.8, 1.2, 0.0, 0.0 });
     Binds::CallBuiltinA("part_type_color1", { PART_TYPE, 16777215.0 });
     Binds::CallBuiltinA("part_type_alpha3", { PART_TYPE, 0.1, 0.9 ,0.0 });
-    Binds::CallBuiltinA("part_type_speed", { PART_TYPE, 0.5, 1.0, 0.0, 0.0 });
+    Binds::CallBuiltinA("part_type_speed", { PART_TYPE, 0.3, 0.6, 0.0, 0.0 });
     Binds::CallBuiltinA("part_type_direction", { PART_TYPE, 260.0, 280.0, 0.0, 0.0 });
     //Binds::CallBuiltinA("part_type_gravity", { PART_TYPE, 0.02, 270.0 });
 
     // emitter
-
     PART_EMITTER = Binds::CallBuiltinA("part_emitter_create", { PART_SYSTEM });
-
-   
 
     Binds::CallBuiltinA(
         "part_emitter_region",
