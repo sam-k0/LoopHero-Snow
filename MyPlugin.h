@@ -100,19 +100,6 @@ namespace Misc {
         return str.compare(str.length() - suffix.length(), suffix.length(), suffix) == 0;
     }
 
-    std::string GetCurrentDir() // Returns EXE directory
-    {
-        char cCurrentPath[FILENAME_MAX]; // get working directory into buffer
-        if (!_getcwd(cCurrentPath, sizeof(cCurrentPath)))
-            exit(-1);
-        cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; // not really required
-
-        char* s = cCurrentPath; // save path from buffer into currentpath chararr
-        std::string str(s);
-        //free(s);
-        return str;
-    }
-
     std::string Join(std::vector<std::string> strings)
     {
         if (strings.size() == 0)
