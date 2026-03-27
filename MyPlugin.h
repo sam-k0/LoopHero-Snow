@@ -24,6 +24,16 @@ DllExport std::string GetPluginName() // For yytk
     return gPluginName;
 }
 
+constexpr uint32_t Hash(const char* str)
+{
+    uint32_t hash = 2166136261u;
+    while (*str)
+    {
+        hash ^= (uint8_t)*str++;
+        hash *= 16777619u;
+    }
+    return hash;
+}
 
 namespace Misc {
     void Print(std::string s, Color c = CLR_DEFAULT)
