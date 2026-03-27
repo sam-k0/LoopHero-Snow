@@ -131,7 +131,7 @@ DllExport YYTKStatus PluginEntry(
 {
     LHCore::CoreReadyPack* pack = new LHCore::CoreReadyPack(PluginObject, InstallPatches);
     PluginObject->PluginUnload = PluginUnload;
-    CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)LHCore::ResolveCore, (LPVOID)pack, 0, NULL); // Wait for LHCC
+    CloseHandle(CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)LHCore::ResolveCore, (LPVOID)pack, 0, NULL)); // Wait for LHCC
     return YYTK_OK; // Successful PluginEntry.
 }
 
