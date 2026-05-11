@@ -14,6 +14,7 @@
 
 
 CallbackAttributes_t* CodeCallbackAttr;
+PluginAttributes_t* PluginAttr;
 YYRValue PART_SYSTEM;
 YYRValue PART_TYPE;
 YYRValue PART_EMITTER;
@@ -79,7 +80,15 @@ int CodePostPatch(YYTKCodeEvent* codeEvent, void*)
 
 }
 
+void SetSnowIntensity(int intensity)
+{
+    SnowIntensity = intensity;
+}
 
+int GetSnowIntensity()
+{
+    return SnowIntensity;
+}
 
 void InstallPatches() // Register Pre and Post patches here
 {
@@ -88,8 +97,6 @@ void InstallPatches() // Register Pre and Post patches here
 		LHCore::pInstallPostPatch(CodePostPatch);
         Misc::Print("Installed patch method(s)", CLR_GREEN);
 	}
-
-
 
     // All things related to config file
     if (Filesys::FileExists(cfgFilename))
@@ -107,8 +114,6 @@ void InstallPatches() // Register Pre and Post patches here
         }
     }
 
-
-
     // Set up particles
     PART_SYSTEM = Binds::CallBuiltinA("part_system_create", {});
     Binds::CallBuiltinA("part_system_depth", { PART_SYSTEM, -999.0 });
@@ -120,7 +125,6 @@ void InstallPatches() // Register Pre and Post patches here
     Binds::CallBuiltinA("part_type_alpha3", { PART_TYPE, 0.1, 0.9 ,0.0 });
     Binds::CallBuiltinA("part_type_speed", { PART_TYPE, 0.3, 0.6, 0.0, 0.0 });
     Binds::CallBuiltinA("part_type_direction", { PART_TYPE, 260.0, 280.0, 0.0, 0.0 });
-    //Binds::CallBuiltinA("part_type_gravity", { PART_TYPE, 0.02, 270.0 });
 
     // emitter
     PART_EMITTER = Binds::CallBuiltinA("part_emitter_create", { PART_SYSTEM });
@@ -137,7 +141,16 @@ void InstallPatches() // Register Pre and Post patches here
         }
     );
 
-    
+    // expose api for other plugins to set the intensity
+    if (PmSetExported(PluginAttr, "API_LHSnow_SetSnowIntensity", SetSnowIntensity) != YYTK_OK)
+    {
+        Misc::Print("Failed to expose API_LHSnow_SetSnowIntensity", CLR_RED);
+    }
+
+    if (PmSetExported(PluginAttr, "API_LHSnow_GetSnowIntensity", GetSnowIntensity) != YYTK_OK)
+    {
+        Misc::Print("Failed to expose API_LHSnow_GetSnowIntensity", CLR_RED);
+    }    
 }
 
 // Entry
@@ -148,6 +161,13 @@ DllExport YYTKStatus PluginEntry(
     LHCore::CoreReadyPack* pack = new LHCore::CoreReadyPack(PluginObject, InstallPatches);
     PluginObject->PluginUnload = PluginUnload;
     CloseHandle(CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)LHCore::ResolveCore, (LPVOID)pack, 0, NULL)); // Wait for LHCC
+    // save ptr to PluginAttributes to expose api
+    if (!PmGetPluginAttributes(PluginObject, PluginAttr) == YYTK_OK)
+    {
+        Misc::Print("Failed to get PluginAttributes", CLR_RED);
+        return YYTK_FAIL;
+    }
+
     return YYTK_OK; // Successful PluginEntry.
 }
 
