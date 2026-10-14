@@ -16,7 +16,7 @@
 
 HINSTANCE DllHandle; // Self modhandle
 
-std::string gPluginName = "sam-k0.SnowStorm.yytk";
+std::string gPluginName = "sam-k0.loophero.snow";
 
 
 DllExport std::string GetPluginName() // For yytk
