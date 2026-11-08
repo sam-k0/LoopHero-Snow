@@ -33,11 +33,6 @@ float SnowIntensity = 8.0;
 constexpr uint32_t HEVT_OBJECT_CAMP_DRAW = Hash("gml_Object_o_camp_controller_Draw_64");
 constexpr uint32_t HEVT_OBJECT_FIGHT_ENEMY_STEP = Hash("gml_Object_o_fight_enemy_Step_0");
 constexpr uint32_t HEVT_OBJECT_HERO_STEP = Hash("gml_Object_o_hero_Step_0");
-/*/
-constexpr const char* HEVT_OBJECT_CAMP_DRAW = "gml_Object_o_camp_controller_Draw_64";
-constexpr const char* HEVT_OBJECT_FIGHT_ENEMY_STEP = "gml_Object_o_fight_enemy_Step_0";
-constexpr const char* HEVT_OBJECT_HERO_STEP = "gml_Object_o_hero_Step_0";
-*/
 
 // Unload function, remove callbacks here
 YYTKStatus PluginUnload()
@@ -64,17 +59,10 @@ int CodePostPatch(YYTKCodeEvent* codeEvent, void*)
     uint32_t hevt = Hash(codeObj->i_pName);
     
     // Do event specific stuff here.
-    if (hevt == HEVT_OBJECT_CAMP_DRAW || hevt == HEVT_OBJECT_FIGHT_ENEMY_STEP || hevt == HEVT_OBJECT_HERO_STEP)
+    if (hevt == HEVT_OBJECT_CAMP_DRAW || hevt == HEVT_OBJECT_HERO_STEP)
     {
         Binds::CallBuiltinA("part_emitter_burst", { PART_SYSTEM, PART_EMITTER, PART_TYPE, SnowIntensity });
     }
-
-    /*if (strcmp(codeObj->i_pName, HEVT_OBJECT_CAMP_DRAW) == 0 ||
-        strcmp(codeObj->i_pName, HEVT_OBJECT_FIGHT_ENEMY_STEP) == 0 ||
-        strcmp(codeObj->i_pName, HEVT_OBJECT_HERO_STEP) == 0)
-    {
-        Binds::CallBuiltinA("part_emitter_burst", { PART_SYSTEM, PART_EMITTER, PART_TYPE, SnowIntensity });
-    }*/
 
     return YYTK_OK;
 
