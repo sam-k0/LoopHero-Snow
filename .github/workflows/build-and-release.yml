@@ -50,6 +50,11 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout
+        # gh needs a git repository in the working directory to resolve
+        # which repo to create the release in.
+        uses: actions/checkout@v4
+
       - name: Download DLL artifact
         uses: actions/download-artifact@v4
         with:
