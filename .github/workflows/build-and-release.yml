@@ -12,10 +12,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup MSVC (x86)
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x86
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v3
 
       - name: Build
         shell: cmd
