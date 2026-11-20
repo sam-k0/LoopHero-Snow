@@ -1,0 +1,79 @@
+name: build-and-release
+
+on:
+  push:
+    branches: ["*"]
+
+jobs:
+  build:
+    name: Build (Release x86)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC (x86)
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+
+      - name: Build
+        shell: cmd
+        run: |
+          msbuild LHSnow.sln /nologo /m /p:Configuration=Release /p:Platform=x86 /p:PlatformToolset=v143
+
+      - name: Locate DLL
+        id: dll
+        shell: pwsh
+        run: |
+          # Find the freshly built DLL regardless of the exact output layout
+          # (a default Win32 build lands in Win32\Release\, not a fixed folder).
+          # No .dll is checked into the repo, so the newest match is ours.
+          $dll = Get-ChildItem -Path . -Recurse -Filter LHSnow.dll |
+                 Sort-Object LastWriteTime -Descending |
+                 Select-Object -First 1
+          if (-not $dll) { throw "LHSnow.dll not found in build output" }
+          Write-Host "Found DLL: $($dll.FullName)"
+          "path=$($dll.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Upload DLL artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LHSnow
+          path: ${{ steps.dll.outputs.path }}
+
+  release:
+    name: Create release
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download DLL artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: LHSnow
+          path: release
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ github.sha }}
+        run: |
+          DATE=$(date -u +%Y.%m.%d)
+          TAG="v.${DATE}"
+          # Multiple builds per day: append -1, -2, ... until the tag is free
+          if gh release view "${TAG}" >/dev/null 2>&1; then
+            N=1
+            while gh release view "${TAG}-${N}" >/dev/null 2>&1; do
+              N=$((N+1))
+            done
+            TAG="${TAG}-${N}"
+          fi
+          gh release create "${TAG}" \
+            --target "${VERSION}" \
+            --title "Release ${DATE}" \
+            --notes "Automated build of LHSnow for commit ${VERSION:0:7}" \
+            --latest \
+            "release/LHSnow.dll"
